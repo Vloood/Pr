@@ -22,15 +22,7 @@ public class Movement : MonoBehaviour {
 		x *= qu1 * qu2 / (y * y * y);
 		return x;
 	}
-	public static float abcx (Vector3 r1,Vector3 r2,Vector3 v1,Vector3 v2,float qu1,float qu2){
-		return 0;
-	}
-	public static float abcy (Vector3 r1,Vector3 r2,Vector3 v1,Vector3 v2,float qu1,float qu2){
-		return 0;
-	}
-	public static float abcz (Vector3 r1,Vector3 r2,Vector3 v1,Vector3 v2,float qu1,float qu2){
-		return 0;
-	}
+
 
 
 	public static float elx (Vector3 t){
@@ -68,7 +60,6 @@ public class Movement : MonoBehaviour {
 		q2 = GameObject.Find ("Sphere (1)").GetComponent<abc> ().echarge;
 		rb.velocity = speed;
 	}
-
 	public Vector3 vel = new Vector3 (0,0,0);
 	void Update () {
 		float fx,fy,fz;
@@ -77,10 +68,11 @@ public class Movement : MonoBehaviour {
 		vperv = rb.velocity;
 		vtor = GameObject.Find ("Sphere (1)").GetComponent<abc> ().vtor;
 		vvtor = GameObject.Find ("Sphere (1)").GetComponent<abc> ().vvtor;
-
-		fx = echarge*(elx(rb.position)+rb.velocity.y*mz(rb.position)-rb.velocity.z*my(rb.position))+abcx(rb.position,perv,rb.velocity,vperv,echarge,q2);
-		fy = echarge*(ely(rb.position)+rb.velocity.z*mx(rb.position)-rb.velocity.x*mz(rb.position))+abcy(rb.position,perv,rb.velocity,vperv,echarge,q2);
-		fz = echarge*(elz(rb.position)+rb.velocity.x*my(rb.position)-rb.velocity.y*mx(rb.position))+abcz(rb.position,perv,rb.velocity,vperv,echarge,q2);
+		Vector3 abc = new Vector3 (0,0,0);
+		abc = vzaim (rb.position, vtor, rb.velocity, vvtor, echarge, q2);
+		fx = echarge*(elx(rb.position)+rb.velocity.y*mz(rb.position)-rb.velocity.z*my(rb.position))+abc.x;
+		fy = echarge*(ely(rb.position)+rb.velocity.z*mx(rb.position)-rb.velocity.x*mz(rb.position))+abc.y;
+		fz = echarge*(elz(rb.position)+rb.velocity.x*my(rb.position)-rb.velocity.y*mx(rb.position))+abc.z;
 		vel.x=(fx/mass)*dt;
 		vel.y=(fy/mass)*dt;
 		vel.z=(fz/mass)*dt;
